@@ -39,7 +39,13 @@ function calcularResultado(accionJugador, accionCPU) {
 function elegirCartaCPU(dificultad, enfriamientoCPU, ultimaAccionJugador) {
   const disponibles = cartasCPU.filter(c => !enfriamientoCPU[c.id] || enfriamientoCPU[c.id] <= 0);
   if (disponibles.length === 0) return cartasCPU[Math.floor(Math.random() * cartasCPU.length)];
-  if (dificultad === "facil") return disponibles[Math.floor(Math.random() * disponibles.length)];
+  if (dificultad === "facil") {
+  if (Math.random() > 0.8) {
+    if (ultimaAccionJugador === "atacar") return disponibles.find(c => c.accion === "defender") || disponibles[Math.floor(Math.random() * disponibles.length)];
+    if (ultimaAccionJugador === "curar") return disponibles.find(c => c.accion === "atacar") || disponibles[Math.floor(Math.random() * disponibles.length)];
+  }
+  return disponibles[Math.floor(Math.random() * disponibles.length)];
+} 
   if (dificultad === "medio" && Math.random() > 0.4) return disponibles[Math.floor(Math.random() * disponibles.length)];
   if (ultimaAccionJugador === "atacar") return disponibles.find(c => c.accion === "defender") || disponibles[0];
   if (ultimaAccionJugador === "curar") return disponibles.find(c => c.accion === "atacar") || disponibles[0];
